@@ -32,7 +32,7 @@ inline void parseJson(const nlohmann::json& json, figcone::TreeNode& node)
     }
 }
 
-inline std::tuple<figcone::StreamPosition, std::string> parseExceptionMessage(const nlohmann::json::exception& e)
+inline ConfigError makeConfigError(const nlohmann::json::exception& e)
 {
     auto message = std::string{e.what()};
     auto regex = std::regex{R"(.*\line (\d+), column (\d+): (.*))"};
@@ -44,9 +44,9 @@ inline std::tuple<figcone::StreamPosition, std::string> parseExceptionMessage(co
         if (!error.empty())
             error[0] = static_cast<char>(std::toupper(error[0]));
 
-        return std::make_tuple(figcone::StreamPosition{line, column}, error);
+        return {error, figcone::StreamPosition{line, column}};
     }
-    return {};
+    return {e.what()};
 }
 
 }
@@ -61,11 +61,7 @@ public:
             stream >> json;
         }
         catch (const nlohmann::json::exception& e) {
-            auto [position, error] = detail::parseExceptionMessage(e);
-            if (error.empty())
-                throw figcone::ConfigError{e.what()};
-            else
-                throw figcone::ConfigError{position, error};
+            throw detail::makeConfigError(e);
         }
 
         auto tree = figcone::makeTreeRoot();
