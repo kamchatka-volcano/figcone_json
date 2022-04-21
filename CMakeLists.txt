@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.18)
 
-project(figcone_json VERSION 1.0 DESCRIPTION "json parser for figcone library")
+project(figcone_json VERSION 0.9.0 DESCRIPTION "json parser for figcone library")
 
 if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     set(FIGCONE_JSON_SUBPROJECT OFF)
@@ -8,7 +8,7 @@ else()
     set(FIGCONE_JSON_SUBPROJECT ON)
 endif()
 
-find_package(figcone_tree 1.0 QUIET)
+find_package(figcone_tree 0.9.0 QUIET)
 if (NOT figcone_tree_FOUND)
     message("Configuration info: figcone_tree library wasn't found on your system, downloading it from the GitHub repository")
     include (external/figcone_tree)
