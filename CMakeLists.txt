@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.18)
 
-project(figcone_json VERSION 0.9.0 DESCRIPTION "json parser for figcone library")
+project(figcone_json VERSION 0.9.0 DESCRIPTION "nlohmann::json parser adapter for figcone library")
 
 if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     set(FIGCONE_JSON_SUBPROJECT OFF)
