@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.18)
 
-project(figcone_json VERSION 0.10.0 DESCRIPTION "nlohmann::json parser adapter for figcone library")
+project(figcone_json VERSION 0.10.1 DESCRIPTION "nlohmann::json parser adapter for figcone library")
 include(GNUInstallDirs)
 
 if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
@@ -10,7 +10,7 @@ else()
 endif()
 
 include(external/json)
-find_package(figcone_tree 0.10.0 QUIET)
+find_package(figcone_tree 0.10.1 QUIET)
 if (NOT figcone_tree_FOUND)
     message("Configuration info: figcone_tree library wasn't found on your system, downloading it from the GitHub repository")
     include (external/figcone_tree)
