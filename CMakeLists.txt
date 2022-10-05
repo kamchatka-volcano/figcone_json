@@ -4,10 +4,13 @@ include(GNUInstallDirs)
 include(external/seal_lake)
 
 SealLake_Download(
-        json 3.10.5
         URL https://github.com/nlohmann/json/releases/download/v3.10.5/json.tar.xz
         DESTINATION include/figcone_json/detail/external
-        FILES include/nlohmann
+        DIRECTORIES include/nlohmann
+        TEXT_REPLACEMENTS
+            "nlohmann::" "figcone::json::nlohmann::"
+            "namespace nlohmann" "namespace figcone::json::nlohmann"
+            "INCLUDE_NLOHMANN_" "INCLUDE_FIGCONE_NLOHMANN_"
 )
 
 set(INSTALL_FIGCONE_TREE ON)

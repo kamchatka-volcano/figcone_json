@@ -1,8 +1,10 @@
-#pragma once
+#ifndef FIGCONE_JSON_PARSER_H
+#define FIGCONE_JSON_PARSER_H
+
+#include "detail/external/nlohmann/json.hpp"
 #include <figcone_tree/tree.h>
 #include <figcone_tree/iparser.h>
 #include <figcone_tree/errors.h>
-#include <nlohmann/json.hpp>
 #include <regex>
 #include <vector>
 #include <string>
@@ -71,3 +73,5 @@ public:
 };
 
 }
+
+#endif //FIGCONE_JSON_PARSER_H
