@@ -3,14 +3,12 @@ project(figcone_json VERSION 0.11.0 DESCRIPTION "nlohmann::json parser adapter f
 include(GNUInstallDirs)
 include(external/seal_lake)
 
-SealLake_Download(
+SealLake_Import(
+        nlohmann_json 3.10.5
         URL https://github.com/nlohmann/json/releases/download/v3.10.5/json.tar.xz
-        DESTINATION include/figcone_json/detail/external
-        DIRECTORIES include/nlohmann
         TEXT_REPLACEMENTS
             "nlohmann::" "figcone::json::nlohmann::"
             "namespace nlohmann" "namespace figcone::json::nlohmann"
-            "INCLUDE_NLOHMANN_" "INCLUDE_FIGCONE_NLOHMANN_"
 )
 
 set(INSTALL_FIGCONE_TREE ON)
@@ -20,12 +18,13 @@ SealLake_Import(
         GIT_TAG        cmake_maintenance
 )
 
-SealLake_HeaderOnlyLibrary(
+SealLake_ObjectLibrary(
         NAMESPACE figcone
         COMPILE_FEATURES cxx_std_17
-        INCLUDES figcone_json/detail/external
-        BUILD_STAGE_INCLUDES figcone_json/detail/external
-        LIBRARIES figcone::figcone_tree
+        SOURCES
+            src/parser.cpp
+        LIBRARIES nlohmann_json::nlohmann_json
+        INTERFACE_LIBRARIES figcone::figcone_tree
         DEPENDENCIES
             figcone_tree 0.11.0
 )
