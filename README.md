@@ -1,3 +1,5 @@
+[![build & test (clang, gcc, MSVC)](https://github.com/kamchatka-volcano/figcone_json/actions/workflows/build_and_test.yml/badge.svg?branch=master)](https://github.com/kamchatka-volcano/figcone_json/actions/workflows/build_and_test.yml)
+
 **figcone_json** - is a [`nlohmann/json`](https://github.com/nlohmann/json) configuration parser adapter for [`figcone`](https://github.com/kamchatka-volcano/figcone) library. 
 
 
