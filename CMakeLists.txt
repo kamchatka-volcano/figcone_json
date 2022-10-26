@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.18)
-project(figcone_json VERSION 0.11.0 DESCRIPTION "nlohmann::json parser adapter for figcone library")
+project(figcone_json VERSION 0.12.0 DESCRIPTION "nlohmann::json parser adapter for figcone library")
 include(GNUInstallDirs)
 include(external/seal_lake)
 
@@ -14,9 +14,9 @@ SealLake_Bundle(
 
 set(INSTALL_FIGCONE_TREE ON)
 SealLake_Import(
-        figcone_tree 0.11.0
+        figcone_tree 0.12.0
         GIT_REPOSITORY https://github.com/kamchatka-volcano/figcone_tree.git
-        GIT_TAG        cmake_maintenance
+        GIT_TAG      v0.12.0
 )
 
 SealLake_ObjectLibrary(
