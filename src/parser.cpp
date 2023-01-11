@@ -8,23 +8,26 @@ namespace figcone::json {
 namespace {
 void parseJson(const nlohmann::json& json, figcone::TreeNode& node)
 {
-    for (auto& [key, value]: json.items()) {
+    for (auto& [key, value] : json.items()) {
         if (value.is_object()) {
             auto& newNode = node.asItem().addNode(key);
             parseJson(value, newNode);
-        } else if (value.is_array()) {
+        }
+        else if (value.is_array()) {
             if (!value.empty() && value.front().is_object()) {
-                auto& newNode = node.asItem().addNodeList(key);;
-                for (auto& item: value)
+                auto& newNode = node.asItem().addNodeList(key);
+                for (auto& item : value)
                     parseJson(item, newNode.asList().addNode());
-            } else {
+            }
+            else {
                 auto valuesList = std::vector<std::string>{};
-                for (auto& item: value)
+                for (auto& item : value)
                     valuesList.emplace_back(item.get<std::string>());
 
                 node.asItem().addParamList(key, valuesList);
             }
-        } else
+        }
+        else
             node.asItem().addParam(key, value.get<std::string>());
     }
 }
@@ -45,7 +48,7 @@ ConfigError makeConfigError(const nlohmann::json::exception& e)
     }
     return {e.what()};
 }
-}
+} //namespace
 
 TreeNode Parser::parse(std::istream& stream)
 {
@@ -62,5 +65,4 @@ TreeNode Parser::parse(std::istream& stream)
     return tree;
 }
 
-
-}
+} //namespace figcone::json

@@ -119,17 +119,24 @@ TEST(TestNodeParser, MultiLevel)
 
 TEST(TestNodeParser, InvalidJsonError)
 {
-    assert_exception<figcone::ConfigError>([&]{
-        parse(R"({
+    assert_exception<figcone::ConfigError>(
+            [&]
+            {
+                parse(R"({
         "foo": "5",
         "bar" test",
         "a" :{
           "testInt" : "10"
         }
     })");
-    }, [](const figcone::ConfigError& e){
-        ASSERT_EQ(std::string{e.what()}, "[line:3, column:16] Syntax error while parsing object separator - invalid literal; last read: '\"bar\" te'; expected ':'");
-    });
+            },
+            [](const figcone::ConfigError& e)
+            {
+                ASSERT_EQ(
+                        std::string{e.what()},
+                        "[line:3, column:16] Syntax error while parsing object separator - invalid literal; last read: "
+                        "'\"bar\" te'; expected ':'");
+            });
 }
 
-}
+} //namespace test_nodeparser

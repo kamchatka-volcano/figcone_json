@@ -84,7 +84,6 @@ TEST(TestNodeListParser, BasicOtherOrder)
     }
 }
 
-
 TEST(TestNodeListParser, Nested)
 {
     auto result = parse(R"(
@@ -155,56 +154,56 @@ TEST(TestNodeListParser, NestedCfgList)
     }
     )");
 
-   auto& tree = result.asItem();
-   ASSERT_EQ(tree.paramsCount(), 1);
-   ASSERT_TRUE(tree.hasParam("testStr"));
-   EXPECT_EQ(tree.param("testStr").value(), "Hello");
-   ASSERT_EQ(tree.nodesCount(), 1);
-   ASSERT_TRUE(tree.hasNode("testList"));
-   ASSERT_TRUE(tree.node("testList").isList());
-   auto& testList = tree.node("testList").asList();
-   ASSERT_EQ(testList.count(), 2);
-   {
-       auto& nodeData = testList.node(0).asItem();
-       ASSERT_EQ(nodeData.paramsCount(), 1);
-       ASSERT_EQ(nodeData.hasParam("testStr"), 1);
-       EXPECT_EQ(nodeData.param("testStr").value(), "Hello");
-       ASSERT_EQ(nodeData.nodesCount(), 1);
-       ASSERT_EQ(nodeData.hasNode("testNodes"), 1);
-       auto& testNodes = nodeData.node("testNodes").asList();
-       ASSERT_EQ(testNodes.count(), 2);
-       {
-           auto& listNodeData = testNodes.node(0).asItem();
-           ASSERT_EQ(listNodeData.paramsCount(), 1);
-           ASSERT_EQ(listNodeData.hasParam("testInt"), 1);
-           ASSERT_TRUE(listNodeData.param("testInt").isItem());
-           EXPECT_EQ(listNodeData.param("testInt").value(), "3");
-       }
-       {
-           auto& listNodeData = testNodes.node(1).asItem();
-           ASSERT_EQ(listNodeData.paramsCount(), 1);
-           ASSERT_EQ(listNodeData.hasParam("testInt"), 1);
-           ASSERT_TRUE(listNodeData.param("testInt").isItem());
-           EXPECT_EQ(listNodeData.param("testInt").value(), "33");
-       }
-   }
-   {
-       auto& nodeData = testList.node(1).asItem();
-       ASSERT_EQ(nodeData.paramsCount(), 1);
-       ASSERT_TRUE(nodeData.hasParam("testStr"));
-       ASSERT_TRUE(nodeData.param("testStr").isItem());
-       EXPECT_EQ(nodeData.param("testStr").value(), "World");
-       ASSERT_EQ(nodeData.nodesCount(), 1);
-       ASSERT_TRUE(nodeData.hasNode("testNodes"));
-       auto& testNodes = nodeData.node("testNodes").asList();
-       ASSERT_EQ(testNodes.count(), 1);
-       {
-           auto& listNodeData = testNodes.node(0).asItem();
-           ASSERT_EQ(listNodeData.paramsCount(), 1);
-           ASSERT_TRUE(listNodeData.hasParam("testInt"));
-           EXPECT_EQ(listNodeData.param("testInt").value(), "5");
-       }
-   }
+    auto& tree = result.asItem();
+    ASSERT_EQ(tree.paramsCount(), 1);
+    ASSERT_TRUE(tree.hasParam("testStr"));
+    EXPECT_EQ(tree.param("testStr").value(), "Hello");
+    ASSERT_EQ(tree.nodesCount(), 1);
+    ASSERT_TRUE(tree.hasNode("testList"));
+    ASSERT_TRUE(tree.node("testList").isList());
+    auto& testList = tree.node("testList").asList();
+    ASSERT_EQ(testList.count(), 2);
+    {
+        auto& nodeData = testList.node(0).asItem();
+        ASSERT_EQ(nodeData.paramsCount(), 1);
+        ASSERT_EQ(nodeData.hasParam("testStr"), 1);
+        EXPECT_EQ(nodeData.param("testStr").value(), "Hello");
+        ASSERT_EQ(nodeData.nodesCount(), 1);
+        ASSERT_EQ(nodeData.hasNode("testNodes"), 1);
+        auto& testNodes = nodeData.node("testNodes").asList();
+        ASSERT_EQ(testNodes.count(), 2);
+        {
+            auto& listNodeData = testNodes.node(0).asItem();
+            ASSERT_EQ(listNodeData.paramsCount(), 1);
+            ASSERT_EQ(listNodeData.hasParam("testInt"), 1);
+            ASSERT_TRUE(listNodeData.param("testInt").isItem());
+            EXPECT_EQ(listNodeData.param("testInt").value(), "3");
+        }
+        {
+            auto& listNodeData = testNodes.node(1).asItem();
+            ASSERT_EQ(listNodeData.paramsCount(), 1);
+            ASSERT_EQ(listNodeData.hasParam("testInt"), 1);
+            ASSERT_TRUE(listNodeData.param("testInt").isItem());
+            EXPECT_EQ(listNodeData.param("testInt").value(), "33");
+        }
+    }
+    {
+        auto& nodeData = testList.node(1).asItem();
+        ASSERT_EQ(nodeData.paramsCount(), 1);
+        ASSERT_TRUE(nodeData.hasParam("testStr"));
+        ASSERT_TRUE(nodeData.param("testStr").isItem());
+        EXPECT_EQ(nodeData.param("testStr").value(), "World");
+        ASSERT_EQ(nodeData.nodesCount(), 1);
+        ASSERT_TRUE(nodeData.hasNode("testNodes"));
+        auto& testNodes = nodeData.node("testNodes").asList();
+        ASSERT_EQ(testNodes.count(), 1);
+        {
+            auto& listNodeData = testNodes.node(0).asItem();
+            ASSERT_EQ(listNodeData.paramsCount(), 1);
+            ASSERT_TRUE(listNodeData.hasParam("testInt"));
+            EXPECT_EQ(listNodeData.param("testInt").value(), "5");
+        }
+    }
 }
 
-}
+} //namespace test_nodelistparser
