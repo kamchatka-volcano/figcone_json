@@ -17,7 +17,7 @@ void parseJson(const nlohmann::json& json, figcone::TreeNode& node)
             if (!value.empty() && value.front().is_object()) {
                 auto& newNode = node.asItem().addNodeList(key);
                 for (auto& item : value)
-                    parseJson(item, newNode.asList().addNode());
+                    parseJson(item, newNode.asList().emplaceBack());
             }
             else {
                 auto valuesList = std::vector<std::string>{};
@@ -29,6 +29,17 @@ void parseJson(const nlohmann::json& json, figcone::TreeNode& node)
         }
         else
             node.asItem().addParam(key, value.get<std::string>());
+    }
+}
+
+void parseJsonRootList(const nlohmann::json& json, figcone::TreeNode& node)
+{
+    if (json.is_array()) {
+        for (auto& item : json)
+            parseJson(item, node.asList().emplaceBack());
+    }
+    else {
+        parseJson(json, node.asList().emplaceBack());
     }
 }
 
@@ -50,7 +61,7 @@ ConfigError makeConfigError(const nlohmann::json::exception& e)
 }
 } //namespace
 
-TreeNode Parser::parse(std::istream& stream)
+Tree Parser::parse(std::istream& stream)
 {
     auto json = nlohmann::json{};
     try {
@@ -60,8 +71,8 @@ TreeNode Parser::parse(std::istream& stream)
         throw makeConfigError(e);
     }
 
-    auto tree = figcone::makeTreeRoot();
-    parseJson(json, tree);
+    auto tree = figcone::makeTreeRootList();
+    parseJsonRootList(json, *tree);
     return tree;
 }
 

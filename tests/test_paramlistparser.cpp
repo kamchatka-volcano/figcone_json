@@ -15,7 +15,7 @@ auto parseParam(const std::string& str)
 TEST(TestParamListParser, Basic)
 {
     auto result = parseParam(R"({ "testIntList" : ["1", "2", "3"] })");
-    auto& tree = result.asItem();
+    auto& tree = result.root().asList().at(0).asItem();
     ASSERT_EQ(tree.paramsCount(), 1);
     EXPECT_EQ(tree.param("testIntList").valueList(), (std::vector<std::string>{"1", "2", "3"}));
 }
@@ -23,7 +23,7 @@ TEST(TestParamListParser, Basic)
 TEST(TestParamListParser, BasicWithoutMacro)
 {
     auto result = parseParam(R"({ "testIntList" : ["1", "2", "3"] })");
-    auto& tree = result.asItem();
+    auto& tree = result.root().asList().at(0).asItem();
     ASSERT_EQ(tree.paramsCount(), 1);
     EXPECT_EQ(tree.param("testIntList").valueList(), (std::vector<std::string>{"1", "2", "3"}));
 }

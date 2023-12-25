@@ -9,7 +9,7 @@
 namespace figcone::json {
 class Parser : public IParser {
 public:
-    TreeNode parse(std::istream& stream) override;
+    Tree parse(std::istream& stream) override;
 };
 
 } //namespace figcone::json

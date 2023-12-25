@@ -24,8 +24,9 @@ TEST(TestNodeParser, SingleNodeSingleLevel)
         }
     }
     )");
+    ASSERT_EQ(result.root().asList().size(), 1);
 
-    auto& tree = result.asItem();
+    auto& tree = result.root().asList().at(0).asItem();
     ASSERT_EQ(tree.paramsCount(), 2);
     ASSERT_EQ(tree.hasParam("foo"), 1);
     ASSERT_EQ(tree.hasParam("bar"), 1);
@@ -36,6 +37,44 @@ TEST(TestNodeParser, SingleNodeSingleLevel)
     auto& aNode = tree.node("a").asItem();
     ASSERT_EQ(aNode.paramsCount(), 1);
     EXPECT_EQ(aNode.param("testInt").value(), "10");
+}
+
+TEST(TestNodeParser, RootList)
+{
+    auto result = parse(R"(
+    [{
+        "foo": "5",
+        "bar": "test",
+        "a" :{
+          "testInt" : "10"
+        }
+    },
+    {
+        "foo": "6",
+        "bar": "test2"
+    }]
+    )");
+    ASSERT_EQ(result.root().asList().size(), 2);
+
+    auto& tree = result.root().asList().at(0).asItem();
+    ASSERT_EQ(tree.paramsCount(), 2);
+    ASSERT_EQ(tree.hasParam("foo"), 1);
+    ASSERT_EQ(tree.hasParam("bar"), 1);
+    EXPECT_EQ(tree.param("foo").value(), "5");
+    EXPECT_EQ(tree.param("bar").value(), "test");
+    ASSERT_EQ(tree.nodesCount(), 1);
+    ASSERT_EQ(tree.hasNode("a"), 1);
+    auto& aNode = tree.node("a").asItem();
+    ASSERT_EQ(aNode.paramsCount(), 1);
+    EXPECT_EQ(aNode.param("testInt").value(), "10");
+
+    auto& tree2 = result.root().asList().at(1).asItem();
+    ASSERT_EQ(tree2.paramsCount(), 2);
+    ASSERT_EQ(tree2.hasParam("foo"), 1);
+    ASSERT_EQ(tree2.hasParam("bar"), 1);
+    EXPECT_EQ(tree2.param("foo").value(), "6");
+    EXPECT_EQ(tree2.param("bar").value(), "test2");
+    ASSERT_EQ(tree2.nodesCount(), 0);
 }
 
 TEST(TestNodeParser, MultiNodeSingleLevel)
@@ -53,8 +92,9 @@ TEST(TestNodeParser, MultiNodeSingleLevel)
         }
     }
     )");
+    ASSERT_EQ(result.root().asList().size(), 1);
 
-    auto& tree = result.asItem();
+    auto& tree = result.root().asList().at(0).asItem();
     ASSERT_EQ(tree.paramsCount(), 2);
     ASSERT_EQ(tree.hasParam("foo"), 1);
     ASSERT_EQ(tree.hasParam("bar"), 1);
@@ -90,8 +130,9 @@ TEST(TestNodeParser, MultiLevel)
         }
     }
     )");
+    ASSERT_EQ(result.root().asList().size(), 1);
 
-    auto& tree = result.asItem();
+    auto& tree = result.root().asList().at(0).asItem();
     ASSERT_EQ(tree.paramsCount(), 2);
     ASSERT_EQ(tree.hasParam("foo"), 1);
     ASSERT_EQ(tree.hasParam("bar"), 1);
