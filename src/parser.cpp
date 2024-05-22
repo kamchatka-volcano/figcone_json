@@ -45,8 +45,8 @@ void parseJsonRootList(const nlohmann::json& json, figcone::TreeNode& node)
 
 ConfigError makeConfigError(const nlohmann::json::exception& e)
 {
-    auto message = std::string{e.what()};
-    auto regex = std::regex{R"(.*\line (\d+), column (\d+): (.*))"};
+    const auto message = std::string{e.what()};
+    static const auto regex = std::regex{R"(.*\line (\d+), column (\d+): (.*))"};
     auto match = std::smatch{};
     if (std::regex_search(message, match, regex)) {
         auto line = std::stoi(match[1]);
@@ -71,9 +71,9 @@ Tree Parser::parse(std::istream& stream)
         throw makeConfigError(e);
     }
 
-    auto tree = figcone::makeTreeRootList();
-    parseJsonRootList(json, *tree);
-    return tree;
+    auto treeRoot = figcone::makeTreeRootList();
+    parseJsonRootList(json, *treeRoot);
+    return Tree{std::move(treeRoot)};
 }
 
 } //namespace figcone::json
